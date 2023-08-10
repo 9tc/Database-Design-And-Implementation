@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 public class LogIterator implements Iterator<byte[]> {
     private final FileManager fm;
-    private final BlockId blockId;
+    private BlockId blockId;
     private final Page page;
     private int boundary;
     private int currentpos;
@@ -22,12 +22,6 @@ public class LogIterator implements Iterator<byte[]> {
         moveToBlock(blockId);
     }
 
-    private void moveToBlock(BlockId block) {
-        fm.read(block, page);
-        boundary = page.getInt(0);
-        currentpos = boundary;
-    }
-
     @Override
     public boolean hasNext() {
         return currentpos < fm.blockSize() || blockId.number() > 0;
@@ -36,11 +30,18 @@ public class LogIterator implements Iterator<byte[]> {
     @Override
     public byte[] next() {
         if(currentpos == fm.blockSize()){
-            moveToBlock(new BlockId(blockId.fileName(), blockId.number() - 1));
+            blockId = new BlockId(blockId.fileName(), blockId.number() - 1);
+            moveToBlock(blockId);
         }
 
         byte[] record = page.getBytes(currentpos);
         currentpos += Integer.BYTES + record.length;
         return record;
+    }
+
+    private void moveToBlock(BlockId block) {
+        fm.read(block, page);
+        boundary = page.getInt(0);
+        currentpos = boundary;
     }
 }

@@ -78,7 +78,7 @@ public class RecoveryManager {
             if(record.op() == LogRecord.CHECKPOINT) return;
             if(record.op() == LogRecord.COMMIT || record.op() == LogRecord.ROLLBACK){
                 finishedTransactions.add(record.transactionNumber());
-            } else if(!finishedTransactions.contains(record.transactionNumber())){
+            }else if(!finishedTransactions.contains(record.transactionNumber())){
                 record.undo(transaction);
             }
         }
