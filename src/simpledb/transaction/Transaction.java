@@ -46,6 +46,7 @@ public class Transaction {
 
     public void setString(BlockId block, int offset, String value, boolean logging) {
         cm.xLock(block);
+
         Buffer buff = myBuffers.getBuffer(block);
         int lsn = -1;
         if (logging) {
