@@ -10,7 +10,7 @@ public class ConcurrencyManager {
     private Map<BlockId, String> locks = new HashMap<BlockId, String>();
 
     public void sLock(BlockId block){
-        if(locks.containsKey(block)){
+        if(!locks.containsKey(block)){
             lockTable.sLock(block);
             locks.put(block, "S");
         }
