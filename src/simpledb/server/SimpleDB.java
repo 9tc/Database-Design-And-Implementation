@@ -3,6 +3,7 @@ package simpledb.server;
 import simpledb.buffer.BufferManager;
 import simpledb.file.FileManager;
 import simpledb.log.LogManager;
+import simpledb.transaction.Transaction;
 
 import java.io.File;
 
@@ -30,5 +31,9 @@ public class SimpleDB {
 
     public BufferManager bufferManager() {
         return bm;
+    }
+
+    public Transaction newTransaction() {
+        return new Transaction(fm, lm, bm);
     }
 }
