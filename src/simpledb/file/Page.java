@@ -6,7 +6,7 @@ import java.nio.charset.StandardCharsets;
 
 public class Page{
     private ByteBuffer bb;
-    public static final Charset CHARSET = StandardCharsets.UTF_8;
+    public static final Charset CHARSET = StandardCharsets.US_ASCII;
     public Page(int blockSize){
         bb = ByteBuffer.allocateDirect(blockSize);
     }

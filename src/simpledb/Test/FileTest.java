@@ -4,12 +4,17 @@ import simpledb.file.BlockId;
 import simpledb.file.FileManager;
 import simpledb.file.Page;
 import simpledb.server.SimpleDB;
+
+/**
+ * @ClassName FileTest
+ * @Deacription Fileシステムのテスト
+ */
 public class FileTest {
     public static void main(String[] args) {
         SimpleDB db = new SimpleDB("filetest", 400, 8);
         FileManager fm = db.fileManager();
 
-        BlockId blk = new BlockId("testFile", 2);
+        BlockId blk = new BlockId("testfile", 2);
         Page p1 = new Page(fm.blockSize());
 
         int pos1 = 88;
