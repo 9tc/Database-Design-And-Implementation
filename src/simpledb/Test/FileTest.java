@@ -7,7 +7,7 @@ import simpledb.server.SimpleDB;
 
 /**
  * @ClassName FileTest
- * @Deacription Fileシステムのテスト
+ * @Description Fileシステムのテスト
  */
 public class FileTest {
     public static void main(String[] args) {
