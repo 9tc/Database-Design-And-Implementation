@@ -38,8 +38,8 @@ public class MetadataManager {
         im.createIndex(indexName, tableName, fieldName, transaction);
     }
 
-    public String getViewDef(String viewName, Transaction transaction) {
-        return vm.getViewDef(viewName, transaction);
+    public String getViewDefinition(String viewName, Transaction transaction) {
+        return vm.getViewDefinition(viewName, transaction);
     }
 
     public Map<String, IndexInfo> getIndexInfo(String tableName, Transaction transaction) {

@@ -87,4 +87,14 @@ public class Predicate {
         }
         return result.toString();
     }
+
+    public String equatesWithField(String fieldName) {
+        for(Term t : terms){
+            String val = t.equatesWithField(fieldName);
+            if (val != null){
+                return val;
+            }
+        }
+        return null;
+    }
 }

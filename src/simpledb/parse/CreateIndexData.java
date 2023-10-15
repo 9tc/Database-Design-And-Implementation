@@ -6,7 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class CreateIndexData {
-    private String idxname;
-    private String tblname;
-    private String fldname;
+    private String indexName;
+    private String tableName;
+    private String fieldName;
 }
