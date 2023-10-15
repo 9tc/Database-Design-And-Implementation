@@ -29,7 +29,7 @@ public class ViewManager {
         ts.close();
     }
 
-    public String getViewDef(String viewName, Transaction transaction){
+    public String getViewDefinition(String viewName, Transaction transaction){
         String result = null;
         Layout layout = tm.getLayout("viewcat", transaction);
         TableScan ts = new TableScan(transaction, "viewcat", layout);

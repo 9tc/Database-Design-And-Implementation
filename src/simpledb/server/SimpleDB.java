@@ -4,6 +4,9 @@ import simpledb.buffer.BufferManager;
 import simpledb.file.FileManager;
 import simpledb.log.LogManager;
 import simpledb.metadata.MetadataManager;
+import simpledb.plan.BasicQueryPlanner;
+import simpledb.plan.BasicUpdatePlanner;
+import simpledb.plan.Planner;
 import simpledb.transaction.Transaction;
 
 import java.io.File;
@@ -15,6 +18,7 @@ public class SimpleDB {
     private final FileManager fm;
     private final LogManager lm;
     private final BufferManager bm;
+    private Planner planner;
     private MetadataManager mdm;
 
 
@@ -36,6 +40,7 @@ public class SimpleDB {
             transaction.recover();
         }
         mdm = new MetadataManager(isNew, transaction);
+        planner = new Planner(new BasicQueryPlanner(mdm), new BasicUpdatePlanner(mdm));
         transaction.commit();
         System.out.println("database ready");
     }
@@ -58,5 +63,9 @@ public class SimpleDB {
 
     public MetadataManager metadataManager() {
         return mdm;
+    }
+
+    public Planner planner() {
+        return planner;
     }
 }
