@@ -9,7 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class InsertData {
-    private String tblname;
+    private String tableName;
     private List<String> fields;
     private List<Constant> values;
 }

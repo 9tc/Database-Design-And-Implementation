@@ -1,7 +1,8 @@
 package simpledb.query;
 
 public class ProductScan implements Scan {
-    private Scan s1, s2;
+    private final Scan s1;
+    private final Scan s2;
     public ProductScan(Scan s1, Scan s2) {
         this.s1 = s1;
         this.s2 = s2;

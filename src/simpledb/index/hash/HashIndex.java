@@ -9,9 +9,9 @@ import simpledb.transaction.Transaction;
 
 public class HashIndex implements Index {
     public static int NUM_BUCKETS = 100;
-    private Transaction transaction;
-    private String indexName;
-    private Layout layout;
+    private final Transaction transaction;
+    private final String indexName;
+    private final Layout layout;
     private Constant searchKey = null;
     private TableScan ts = null;
 
@@ -55,8 +55,8 @@ public class HashIndex implements Index {
     public void insert(Constant dataVal, RID dataRid) {
         beforeFirst(dataVal);
         ts.insert();
-        ts.setInt("block", dataRid.blockNumber());
-        ts.setInt("id", dataRid.slot());
+        ts.setInt("block", dataRid.getBlockNum());
+        ts.setInt("id", dataRid.getSlot());
         ts.setValue("dataval", dataVal);
     }
 

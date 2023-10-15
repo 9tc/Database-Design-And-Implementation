@@ -6,10 +6,10 @@ import simpledb.query.UpdateScan;
 import simpledb.transaction.Transaction;
 
 public class TableScan implements UpdateScan {
-    private Transaction transaction;
-    private Layout layout;
+    private final Transaction transaction;
+    private final Layout layout;
     private RecordPage recordPage;
-    private String filename;
+    private final String filename;
     private int currentSlot;
     public TableScan(Transaction transaction, String tableName, Layout layout) {
         this.transaction = transaction;
@@ -36,7 +36,7 @@ public class TableScan implements UpdateScan {
             if(atLastBlock()) {
                 return false;
             }
-            moveToBlock(recordPage.block().number() + 1);
+            moveToBlock(recordPage.block().getBlockNum() + 1);
             currentSlot = recordPage.nextAfter(currentSlot);
         }
         return true;
@@ -54,7 +54,7 @@ public class TableScan implements UpdateScan {
 
     @Override
     public Constant getValue(String fieldName) {
-        if(layout.schema().type(fieldName) == java.sql.Types.INTEGER){
+        if(layout.getSchema().type(fieldName) == java.sql.Types.INTEGER){
             return new Constant(getInt(fieldName));
         }else{
             return new Constant(getString(fieldName));
@@ -63,7 +63,7 @@ public class TableScan implements UpdateScan {
 
     @Override
     public boolean hasField(String fieldName) {
-        return layout.schema().hasField(fieldName);
+        return layout.getSchema().hasField(fieldName);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class TableScan implements UpdateScan {
 
     @Override
     public void setValue(String fieldName, Constant value) {
-        if(layout.schema().type(fieldName) == java.sql.Types.INTEGER){
+        if(layout.getSchema().type(fieldName) == java.sql.Types.INTEGER){
             setInt(fieldName, value.asInteger());
         }else{
             setString(fieldName, value.asString());
@@ -104,7 +104,7 @@ public class TableScan implements UpdateScan {
             if(atLastBlock()){
                 moveToNewBlock();
             }else{
-                moveToBlock(recordPage.block().number() + 1);
+                moveToBlock(recordPage.block().getBlockNum() + 1);
             }
             currentSlot = recordPage.insertAfter(currentSlot);
         }
@@ -112,15 +112,15 @@ public class TableScan implements UpdateScan {
 
     @Override
     public RID getRid() {
-        return new RID(recordPage.block().number(), currentSlot);
+        return new RID(recordPage.block().getBlockNum(), currentSlot);
     }
 
     @Override
     public void moveToRid(RID rid) {
         close();
-        BlockId block = new BlockId(filename, rid.blockNumber());
+        BlockId block = new BlockId(filename, rid.getBlockNum());
         recordPage = new RecordPage(transaction, block, layout);
-        currentSlot = rid.slot();
+        currentSlot = rid.getSlot();
     }
 
     private void moveToBlock(int blockNumber) {
@@ -139,6 +139,6 @@ public class TableScan implements UpdateScan {
     }
 
     private boolean atLastBlock() {
-        return recordPage.block().number() == transaction.size(filename) - 1;
+        return recordPage.block().getBlockNum() == transaction.size(filename) - 1;
     }
 }

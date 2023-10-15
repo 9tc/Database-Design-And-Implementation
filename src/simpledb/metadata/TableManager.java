@@ -10,7 +10,8 @@ import java.util.Map;
 
 public class TableManager {
     public static final int MAX_NAME_LENGTH = 16;
-    private Layout tcatLayout, fcatLayout;
+    private final Layout tcatLayout;
+    private final Layout fcatLayout;
     public TableManager(boolean isNew, Transaction transaction) {
         Schema tcatSchema = new Schema();
         tcatSchema.addStringField("tblname", MAX_NAME_LENGTH);
@@ -36,7 +37,7 @@ public class TableManager {
         TableScan tcat = new TableScan(transaction, "tblcat", tcatLayout);
         tcat.insert();
         tcat.setString("tblname", tableName);
-        tcat.setInt("slotsize", layout.slotSize());
+        tcat.setInt("slotsize", layout.getSlotSize());
         tcat.close();
 
         TableScan fcat = new TableScan(transaction, "fldcat", fcatLayout);
@@ -63,7 +64,7 @@ public class TableManager {
         tcat.close();
 
         Schema schema = new Schema();
-        Map<String, Integer> offsets = new HashMap<String, Integer>();
+        Map<String, Integer> offsets = new HashMap<>();
         TableScan fcat = new TableScan(transaction, "fldcat", fcatLayout);
         while(fcat.next()){
             if(fcat.getString("tblname").equals(tableName)){

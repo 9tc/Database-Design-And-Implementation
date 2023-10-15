@@ -1,5 +1,6 @@
 package simpledb.query;
 
+import lombok.NoArgsConstructor;
 import simpledb.plan.Plan;
 import simpledb.record.Schema;
 
@@ -8,11 +9,9 @@ import java.util.List;
 import java.util.Iterator;
 
 
+@NoArgsConstructor
 public class Predicate {
-    private List<Term> terms = new ArrayList<Term>();
-
-    public Predicate(){
-    }
+    private final List<Term> terms = new ArrayList<>();
 
     public Predicate(Term t){
         terms.add(t);
@@ -45,7 +44,7 @@ public class Predicate {
                 result.terms.add(t);
             }
         }
-        if(result.terms.size() == 0){
+        if(result.terms.isEmpty()){
             return null;
         }
         return result;
@@ -61,7 +60,7 @@ public class Predicate {
                 result.terms.add(t);
             }
         }
-        if(result.terms.size() == 0){
+        if(result.terms.isEmpty()){
             return null;
         }
         return result;

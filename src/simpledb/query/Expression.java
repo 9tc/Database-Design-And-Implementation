@@ -10,8 +10,8 @@ public class Expression {
         this.val = val;
     }
 
-    public Expression(String fldname){
-        this.fldname = fldname;
+    public Expression(String fieldName){
+        this.fldname = fieldName;
     }
 
     public Constant evaluate(Scan s){

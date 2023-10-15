@@ -1,21 +1,13 @@
 package simpledb.metadata;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@AllArgsConstructor
+@Data
 public class StatInfo {
-    private int numBlocks;
-    private int numRecords;
-
-    public StatInfo(int numBlocks, int numRecords){
-        this.numBlocks = numBlocks;
-        this.numRecords = numRecords;
-    }
-
-    public int blocksAccessed(){
-        return numBlocks;
-    }
-
-    public int recordsOutput(){
-        return numRecords;
-    }
+    private final int accessedBlocks;
+    private final int numRecords;
 
     public int distinctValues(String fldname){
         return 1 + numRecords / 3;

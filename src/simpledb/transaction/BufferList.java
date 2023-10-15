@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Map;
 
 public class BufferList {
-    private Map<BlockId, Buffer> buffers = new HashMap<BlockId, Buffer>();
-    private List<BlockId> pins = new ArrayList<BlockId>();
-    private BufferManager bm;
+    private final Map<BlockId, Buffer> buffers = new HashMap<>();
+    private final List<BlockId> pins = new ArrayList<>();
+    private final BufferManager bm;
 
     public BufferList(BufferManager bm) {
         this.bm = bm;

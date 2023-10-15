@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Schema {
-    private List<String> fields = new ArrayList<String>();
-    private Map<String, FieldInfo> info = new HashMap<String, FieldInfo>();
+    private final List<String> fields = new ArrayList<>();
+    private final Map<String, FieldInfo> info = new HashMap<>();
     // TODO fieldType -> FieldType型にしたい
     public void addField(String fieldName, int fieldType, int fieldLength) {
         fields.add(fieldName);
@@ -48,7 +48,7 @@ public class Schema {
         return info.get(fieldName).length;
     }
 
-    class FieldInfo{
+    static class FieldInfo{
         int type, length;
         public FieldInfo(int type, int length) {
             this.type = type;

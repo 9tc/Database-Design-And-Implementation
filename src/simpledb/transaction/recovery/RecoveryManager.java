@@ -9,12 +9,13 @@ import simpledb.transaction.Transaction;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Objects;
 
 public class RecoveryManager {
-    private LogManager lm;
-    private BufferManager bm;
-    private Transaction transaction;
-    private int transactionNumber;
+    private final LogManager lm;
+    private final BufferManager bm;
+    private final Transaction transaction;
+    private final int transactionNumber;
 
     public RecoveryManager(Transaction transaction, int transactionNumber, LogManager lm, BufferManager bm) {
         this.transaction = transaction;
@@ -62,7 +63,7 @@ public class RecoveryManager {
         while(it.hasNext()){
             byte[] bytes = it.next();
             LogRecord record = LogRecord.create(bytes);
-            if(record.transactionNumber() == transactionNumber){
+            if(Objects.requireNonNull(record).transactionNumber() == transactionNumber){
                 if(record.op() == LogRecord.START) return;
                 record.undo(transaction);
             }
@@ -70,12 +71,12 @@ public class RecoveryManager {
     }
 
     private void doRecover(){
-        Collection<Integer> finishedTransactions = new ArrayList<Integer>();
+        Collection<Integer> finishedTransactions = new ArrayList<>();
         Iterator<byte[]> it = lm.iterator();
         while(it.hasNext()){
             byte[] bytes = it.next();
             LogRecord record = LogRecord.create(bytes);
-            if(record.op() == LogRecord.CHECKPOINT) return;
+            if(Objects.requireNonNull(record).op() == LogRecord.CHECKPOINT) return;
             if(record.op() == LogRecord.COMMIT || record.op() == LogRecord.ROLLBACK){
                 finishedTransactions.add(record.transactionNumber());
             }else if(!finishedTransactions.contains(record.transactionNumber())){

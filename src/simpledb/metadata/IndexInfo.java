@@ -7,12 +7,12 @@ import simpledb.record.Schema;
 import simpledb.transaction.Transaction;
 
 public class IndexInfo {
-    private String indexName;
-    private String fieldName;
-    private Transaction transaction;
-    private Schema tableSchema;
-    private Layout indexLayout;
-    private StatInfo si;
+    private final String indexName;
+    private final String fieldName;
+    private final Transaction transaction;
+    private final Schema tableSchema;
+    private final Layout indexLayout;
+    private final StatInfo si;
 
     public IndexInfo(String indexName, String fieldName, Schema schema, Transaction transaction, StatInfo si){
         this.indexName = indexName;
@@ -28,8 +28,8 @@ public class IndexInfo {
     }
 
     public int blocksAccessed(){
-        int rpb = transaction.blockSize() / indexLayout.slotSize();
-        int numBlocks = si.recordsOutput() / rpb;
+        int rpb = transaction.blockSize() / indexLayout.getSlotSize();
+        int numBlocks = si.getNumRecords() / rpb;
         return HashIndex.searchCost(numBlocks, rpb);
     }
 
@@ -50,6 +50,6 @@ public class IndexInfo {
     }
 
     public int recordsOutput() {
-        return si.recordsOutput() / si.distinctValues(fieldName);
+        return si.getNumRecords() / si.distinctValues(fieldName);
     }
 }

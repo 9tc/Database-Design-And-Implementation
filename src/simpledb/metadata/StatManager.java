@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StatManager {
-    private TableManager tm;
+    private final TableManager tm;
     private Map<String, StatInfo> tableStats;
     private int numCalls;
 
@@ -30,7 +30,7 @@ public class StatManager {
     }
 
     private void refreshStatistics(Transaction transaction) {
-        tableStats = new HashMap<String, StatInfo>();
+        tableStats = new HashMap<>();
         numCalls = 0;
         Layout tcatLayout = tm.getLayout("tblcat", transaction);
         TableScan tcatScan = new TableScan(transaction, "tblcat", tcatLayout);
@@ -49,7 +49,7 @@ public class StatManager {
         TableScan ts = new TableScan(transaction, tableName, layout);
         while(ts.next()){
             numRecords++;
-            numBlocks = ts.getRid().blockNumber() + 1;
+            numBlocks = ts.getRid().getBlockNum() + 1;
         }
         ts.close();
         return new StatInfo(numBlocks, numRecords);
