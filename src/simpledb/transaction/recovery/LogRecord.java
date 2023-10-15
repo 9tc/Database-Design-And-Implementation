@@ -4,12 +4,12 @@ import simpledb.file.Page;
 import simpledb.transaction.Transaction;
 
 public interface LogRecord {
-    static final int CHECKPOINT = 0;
-    static final int START = 1;
-    static final int COMMIT = 2;
-    static final int ROLLBACK = 3;
-    static final int SETINT = 4;
-    static final int SETSTRING = 5;
+    int CHECKPOINT = 0;
+    int START = 1;
+    int COMMIT = 2;
+    int ROLLBACK = 3;
+    int SETINT = 4;
+    int SETSTRING = 5;
 
     int op();
     int transactionNumber();

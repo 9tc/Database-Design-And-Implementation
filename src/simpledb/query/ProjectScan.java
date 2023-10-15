@@ -1,15 +1,13 @@
 package simpledb.query;
 
+import lombok.AllArgsConstructor;
+
 import java.util.List;
 
+@AllArgsConstructor
 public class ProjectScan implements Scan{
-    private Scan s;
-    private List<String> fieldList;
-
-    public ProjectScan(Scan s, List<String> fieldList){
-        this.s = s;
-        this.fieldList = fieldList;
-    }
+    private final Scan s;
+    private final List<String> fieldList;
 
     @Override
     public void beforeFirst() {

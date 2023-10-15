@@ -6,9 +6,10 @@ import simpledb.log.LogManager;
 import simpledb.transaction.Transaction;
 
 public class SetStringRecord implements LogRecord{
-    private int transactionNumber, offset;
-    private String value;
-    private BlockId block;
+    private final int transactionNumber;
+    private final int offset;
+    private final String value;
+    private final BlockId block;
 
     public SetStringRecord(Page page) {
         int tpos = Integer.BYTES;
@@ -48,7 +49,7 @@ public class SetStringRecord implements LogRecord{
     public static int writeToLog(LogManager lm, int transactionnum, BlockId block, int offset, String value){
         int tpos = Integer.BYTES;
         int fpos = tpos + Integer.BYTES;
-        int bpos = fpos + Page.maxLength(block.fileName().length());
+        int bpos = fpos + Page.maxLength(block.getFilename().length());
         int opos = bpos + Integer.BYTES;
         int vpos = opos + Integer.BYTES;
         int reclen = vpos + Page.maxLength(value.length());
@@ -56,8 +57,8 @@ public class SetStringRecord implements LogRecord{
         Page page = new Page(record);
         page.setInt(0, SETSTRING);
         page.setInt(tpos, transactionnum);
-        page.setString(fpos, block.fileName());
-        page.setInt(bpos, block.number());
+        page.setString(fpos, block.getFilename());
+        page.setInt(bpos, block.getBlockNum());
         page.setInt(opos, offset);
         page.setString(vpos, value);
         return lm.append(record);

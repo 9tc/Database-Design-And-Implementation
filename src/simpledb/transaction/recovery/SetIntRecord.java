@@ -6,9 +6,10 @@ import simpledb.log.LogManager;
 import simpledb.transaction.Transaction;
 
 public class SetIntRecord implements LogRecord {
-    private int transactionNumber, offset;
-    private int value;
-    private BlockId block;
+    private final int transactionNumber;
+    private final int offset;
+    private final int value;
+    private final BlockId block;
 
     public SetIntRecord(Page page) {
         int tpos = Integer.BYTES;
@@ -16,8 +17,8 @@ public class SetIntRecord implements LogRecord {
         int fpos = tpos + Integer.BYTES;
         String filename = page.getString(fpos);
         int bpos = fpos + Page.maxLength(filename.length());
-        int blocknum = page.getInt(bpos);
-        block = new BlockId(filename, blocknum);
+        int blockNum = page.getInt(bpos);
+        block = new BlockId(filename, blockNum);
         int opos = bpos + Integer.BYTES;
         offset = page.getInt(opos);
         int vpos = opos + Integer.BYTES;
@@ -48,7 +49,7 @@ public class SetIntRecord implements LogRecord {
     public static int writeToLog(LogManager lm, int transactionNumber, BlockId block, int offset, int oldValue) {
         int tpos = Integer.BYTES;
         int fpos = tpos + Integer.BYTES;
-        int bpos = fpos + Page.maxLength(block.fileName().length());
+        int bpos = fpos + Page.maxLength(block.getFilename().length());
         int opos = bpos + Integer.BYTES;
         int vpos = opos + Integer.BYTES;
         int reclen = vpos + Integer.BYTES;
@@ -56,8 +57,8 @@ public class SetIntRecord implements LogRecord {
         Page page = new Page(record);
         page.setInt(0, SETINT);
         page.setInt(tpos, transactionNumber);
-        page.setString(fpos, block.fileName());
-        page.setInt(bpos, block.number());
+        page.setString(fpos, block.getFilename());
+        page.setInt(bpos, block.getBlockNum());
         page.setInt(opos, offset);
         page.setInt(vpos, oldValue);
         return lm.append(record);

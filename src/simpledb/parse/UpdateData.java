@@ -8,8 +8,8 @@ import simpledb.query.Predicate;
 @AllArgsConstructor
 @Getter
 public class UpdateData {
-    private String tblname;
-    private String fldname;
-    private Expression newval;
+    private String tableNAme;
+    private String fieldName;
+    private Expression newExpression;
     private Predicate predicate;
 }

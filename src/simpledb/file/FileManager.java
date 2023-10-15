@@ -7,11 +7,10 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class FileManager {
-
-    private boolean isNew;
-    private int blockSize;
-    private File dbDirectory;
-    private Map<String,RandomAccessFile> openFiles = new HashMap<>();
+    private final boolean isNew;
+    private final int blockSize;
+    private final File dbDirectory;
+    private final Map<String,RandomAccessFile> openFiles = new HashMap<>();
 
     public FileManager(File dbDirectory, int blockSize){
         this.dbDirectory = dbDirectory;
@@ -30,8 +29,8 @@ public class FileManager {
 
     public synchronized void read(BlockId blk, Page page){
         try{
-            RandomAccessFile f = getFile(blk.fileName());
-            f.seek(blk.number() * blockSize);
+            RandomAccessFile f = getFile(blk.getFilename());
+            f.seek((long) blk.getBlockNum() * blockSize);
             f.getChannel().read(page.contents());
         }catch (IOException e){
             throw new RuntimeException("cannot read block" + blk);
@@ -50,8 +49,8 @@ public class FileManager {
 
     public synchronized void write(BlockId blk, Page page){
         try{
-            RandomAccessFile f = getFile(blk.fileName());
-            f.seek(blk.number() * blockSize);
+            RandomAccessFile f = getFile(blk.getFilename());
+            f.seek((long) blk.getBlockNum() * blockSize);
             f.getChannel().write(page.contents());
         }catch (IOException e) {
             throw new RuntimeException("cannot write block" + blk);
@@ -63,8 +62,8 @@ public class FileManager {
         BlockId blk = new BlockId(filename, newBlockNum);
         byte[] b = new byte[blockSize];
         try{
-            RandomAccessFile f = getFile(blk.fileName());
-            f.seek(blk.number() * blockSize);
+            RandomAccessFile f = getFile(blk.getFilename());
+            f.seek((long) blk.getBlockNum() * blockSize);
             f.write(b);
         }catch (IOException e) {
             throw new RuntimeException("cannot append block" + blk);

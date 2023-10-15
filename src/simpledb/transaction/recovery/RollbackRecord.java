@@ -5,11 +5,11 @@ import simpledb.log.LogManager;
 import simpledb.transaction.Transaction;
 
 public class RollbackRecord implements LogRecord{
-    private int transactionNumber;
+    private final int transactionNumber;
 
     public RollbackRecord(Page page){
-        int tpos = Integer.BYTES;
-        transactionNumber = page.getInt(tpos);
+        int pos = Integer.BYTES;
+        transactionNumber = page.getInt(pos);
     }
 
 

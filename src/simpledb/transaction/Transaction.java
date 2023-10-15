@@ -12,12 +12,12 @@ import simpledb.transaction.recovery.RecoveryManager;
 public class Transaction {
     private static int nextTransactionNumber = 0;
     private static final int END_OF_FILE = -1;
-    private RecoveryManager rm;
-    private ConcurrencyManager cm;
-    private BufferManager bm;
-    private FileManager fm;
-    private int transactionNumber;
-    private BufferList myBuffers;
+    private final RecoveryManager rm;
+    private final ConcurrencyManager cm;
+    private final BufferManager bm;
+    private final FileManager fm;
+    private final int transactionNumber;
+    private final BufferList myBuffers;
     public Transaction(FileManager fm, LogManager lm, BufferManager bm) {
         this.fm = fm;
         this.bm = bm;
@@ -25,7 +25,6 @@ public class Transaction {
         this.rm = new RecoveryManager(this, transactionNumber, lm, bm);
         this.cm = new ConcurrencyManager();
         this.myBuffers = new BufferList(bm);
-
     }
 
     public void pin(BlockId block) {

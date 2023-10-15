@@ -8,8 +8,8 @@ public class CommitRecord implements LogRecord{
     private final int transactionNumber;
 
     public CommitRecord(Page page){
-        int tpos = Integer.BYTES;
-        transactionNumber = page.getInt(tpos);
+        int pos = Integer.BYTES;
+        transactionNumber = page.getInt(pos);
     }
 
     public int op(){

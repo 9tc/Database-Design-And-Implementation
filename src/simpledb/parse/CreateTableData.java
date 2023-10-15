@@ -7,6 +7,6 @@ import simpledb.record.Schema;
 @AllArgsConstructor
 @Getter
 public class CreateTableData {
-    private String tblname;
+    private String tableName;
     private Schema schema;
 }

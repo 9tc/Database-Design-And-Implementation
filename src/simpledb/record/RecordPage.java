@@ -40,7 +40,7 @@ public class RecordPage {
         int slot = 0;
         while(isValidSlot(slot)){
             transaction.setInt(block, offset(slot), EMPTY, false);
-            Schema schema = layout.schema();
+            Schema schema = layout.getSchema();
             for(String fieldName: schema.fields()){
                 int fieldPos = offset(slot) + layout.offset(fieldName);
                 if(schema.type(fieldName) == java.sql.Types.INTEGER){
@@ -89,6 +89,6 @@ public class RecordPage {
     }
 
     private int offset(int slot) {
-        return slot * layout.slotSize();
+        return slot * layout.getSlotSize();
     }
 }

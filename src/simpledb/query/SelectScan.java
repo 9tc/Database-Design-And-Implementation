@@ -1,15 +1,12 @@
 package simpledb.query;
 
+import lombok.AllArgsConstructor;
 import simpledb.record.RID;
 
+@AllArgsConstructor
 public class SelectScan implements Scan {
     private final Scan s;
     private final Predicate pred;
-
-    public SelectScan(Scan s, Predicate pred){
-        this.s = s;
-        this.pred = pred;
-    }
 
     @Override
     public void beforeFirst() {

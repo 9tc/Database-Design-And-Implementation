@@ -1,14 +1,12 @@
 package simpledb.transaction.recovery;
 
+import lombok.NoArgsConstructor;
 import simpledb.file.Page;
 import simpledb.log.LogManager;
 import simpledb.transaction.Transaction;
 
+@NoArgsConstructor
 public class CheckpointRecord implements LogRecord{
-    public CheckpointRecord() {
-
-    }
-
     public static int writeToLog(LogManager lm) {
         byte[] record = new byte[Integer.BYTES];
         Page page = new Page(record);

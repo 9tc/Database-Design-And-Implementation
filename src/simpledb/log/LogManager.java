@@ -14,8 +14,8 @@ import java.util.Iterator;
 public class LogManager {
 
     private BlockId currentBlock;
-    private FileManager fm;
-    private String logFile;
+    private final FileManager fm;
+    private final String logFile;
     private final Page logPage;
     private int latestLSN = 0;
     private int lastSavedLSN = 0;

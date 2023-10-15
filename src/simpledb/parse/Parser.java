@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class Parser {
-    private Lexer lexer;
+    private final Lexer lexer;
 
     public Parser(String s){
         lexer = new Lexer(s);

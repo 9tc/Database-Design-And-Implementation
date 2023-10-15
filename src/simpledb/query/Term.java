@@ -1,15 +1,13 @@
 package simpledb.query;
 
+import lombok.AllArgsConstructor;
 import simpledb.plan.Plan;
 import simpledb.record.Schema;
 
+@AllArgsConstructor
 public class Term {
-    private Expression lhs, rhs;
-
-    public Term(Expression lhs, Expression rhs) {
-        this.lhs = lhs;
-        this.rhs = rhs;
-    }
+    private final Expression lhs;
+    private final Expression rhs;
 
     public boolean isSatisfied(Scan s) {
         Constant lhsVal = lhs.evaluate(s);

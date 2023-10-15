@@ -1,12 +1,18 @@
 package simpledb.record;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@AllArgsConstructor
 public class Layout {
-    private Schema schema;
-    private Map<String, Integer> offsets;
-    private int slotSize;
+    @Getter
+    private final Schema schema;
+    private final Map<String, Integer> offsets;
+    @Getter
+    private final int slotSize;
 
     public Layout(Schema schema){
         this.schema = schema;
@@ -19,22 +25,9 @@ public class Layout {
         slotSize = pos;
     }
 
-    public Layout(Schema schema, Map<String, Integer> offsets, int slotSize){
-        this.schema = schema;
-        this.offsets = offsets;
-        this.slotSize = slotSize;
-    }
-
-    public Schema schema(){
-        return schema;
-    }
 
     public int offset(String fieldName){
         return offsets.get(fieldName);
-    }
-
-    public int slotSize(){
-        return slotSize;
     }
 
     private int lengthInBytes(String fieldName){

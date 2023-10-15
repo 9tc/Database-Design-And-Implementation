@@ -9,9 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class IndexManager {
-    private Layout layout;
-    private TableManager tm;
-    private StatManager sm;
+    private final Layout layout;
+    private final TableManager tm;
+    private final StatManager sm;
 
     public IndexManager(boolean isNew, TableManager tm, StatManager sm, Transaction transaction){
         if(isNew){
@@ -37,7 +37,7 @@ public class IndexManager {
     }
 
     public Map<String, IndexInfo> getIndexInfo(String tableName, Transaction transaction){
-        Map<String, IndexInfo> result = new HashMap<String, IndexInfo>();
+        Map<String, IndexInfo> result = new HashMap<>();
         TableScan ts = new TableScan(transaction, "idxcat", layout);
         while(ts.next()){
             if(ts.getString("tablename").equals(tableName)){
@@ -45,7 +45,7 @@ public class IndexManager {
                 String fieldName = ts.getString("fieldname");
                 Layout tableLayout = tm.getLayout(tableName, transaction);
                 StatInfo tableStatInfo = sm.getStatInfo(tableName, tableLayout, transaction);
-                result.put(fieldName, new IndexInfo(indexName, fieldName, tableLayout.schema(), transaction, tableStatInfo));
+                result.put(fieldName, new IndexInfo(indexName, fieldName, tableLayout.getSchema(), transaction, tableStatInfo));
             }
         }
         ts.close();

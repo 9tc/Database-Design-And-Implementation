@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ConcurrencyManager {
-    private static LockTable lockTable = new LockTable();
-    private Map<BlockId, String> locks = new HashMap<BlockId, String>();
+    private static final LockTable lockTable = new LockTable();
+    private final Map<BlockId, String> locks = new HashMap<>();
 
     public void sLock(BlockId block){
         if(!locks.containsKey(block)){
